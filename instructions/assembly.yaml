@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: © 2024 Tenstorrent AI ULC
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # Instruction types:
 #   This field only matters for verilog generation, it signifies which hierarchical decoder "owns" instruction
 #   LOCAL_CREGS  -

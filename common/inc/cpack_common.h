@@ -382,7 +382,7 @@ namespace ckernel::packer
 
    // READERS FOR CONFIG STRUCTS
 
-   inline pack_config_t read_pack_config(uint32_t reg_addr, const volatile uint tt_reg_ptr* cfg ) {
+   inline pack_config_t read_pack_config_helper(uint32_t reg_addr, const volatile uint tt_reg_ptr* cfg ) {
 
       pack_config_u config = {.val = 0};
    
@@ -392,5 +392,19 @@ namespace ckernel::packer
       config.val[3] = cfg[reg_addr + 3];
 
       return config.f;
+   }
+
+   inline std::array<pack_config_t, 4> read_pack_config() {
+      std::array<pack_config_t, 4> config_vec;
+      
+      // Get pointer to registers for current state ID 
+      volatile uint tt_reg_ptr* cfg = get_cfg_pointer();
+
+      config_vec[0] = read_pack_config_helper(THCON_SEC0_REG1_Row_start_section_size_ADDR32, cfg);
+      config_vec[1] = read_pack_config_helper(THCON_SEC0_REG8_Row_start_section_size_ADDR32, cfg);
+      config_vec[2] = read_pack_config_helper(THCON_SEC1_REG1_Row_start_section_size_ADDR32, cfg);
+      config_vec[3] = read_pack_config_helper(THCON_SEC1_REG8_Row_start_section_size_ADDR32, cfg);
+
+      return config_vec;
    }
 }

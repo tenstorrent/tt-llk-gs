@@ -74,6 +74,23 @@ namespace ckernel::packer
       pack_counters_t f;
    } pack_counters_u;
 
+      typedef struct {
+      uint32_t mask : 16;
+      uint32_t mode : 1;
+      uint32_t tile_row_set_select_pack0: 2;
+      uint32_t tile_row_set_select_pack1: 2;
+      uint32_t tile_row_set_select_pack2: 2;
+      uint32_t tile_row_set_select_pack3: 2;
+      uint32_t reserved: 7;
+   } pck_edge_offset_t;
+
+   static_assert(sizeof(pck_edge_offset_t) == (sizeof(uint32_t)));
+
+   typedef union {
+      uint32_t val;
+      pck_edge_offset_t f;
+   } pck_edge_offset_u;
+
    // Set unpacker offsets to 0, except for unpacker 0, channel 1, X, which is the tile X dimension
    inline void packer_addr_counter_init()
    {

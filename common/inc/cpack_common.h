@@ -58,6 +58,22 @@ namespace ckernel::packer
      pack_config_t f;
    } pack_config_u;
 
+   // Pack counters
+   typedef struct {
+      uint32_t pack_per_xy_plane : 8;
+      uint32_t pack_reads_per_xy_plane : 8;
+      uint32_t pack_xys_per_til : 7;
+      uint32_t pack_yz_transposed : 1;
+      uint32_t pack_per_xy_plane_offset : 8;
+   } pack_counters_t;
+
+   static_assert(sizeof(pack_counters_t) == (sizeof(uint32_t)));
+
+   typedef union {
+      uint32_t val;
+      pack_counters_t f;
+   } pack_counters_u;
+
    // Set unpacker offsets to 0, except for unpacker 0, channel 1, X, which is the tile X dimension
    inline void packer_addr_counter_init()
    {
@@ -409,4 +425,6 @@ namespace ckernel::packer
 
       return config_vec;
    }
+
+
 }

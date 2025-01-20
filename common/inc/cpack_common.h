@@ -443,6 +443,27 @@ namespace ckernel::packer
       return config_vec;
    }
 
+   inline pck_edge_offset_t read_pack_edge_offset_helper(uint32_t reg_addr, const volatile uint tt_reg_ptr* cfg) {
+      pck_edge_offset_u edge = {.val=0};
+      edge.val = cfg[reg_addr];
+
+      return edge.f;
+   }
+
+   inline std::array<pck_edge_offset_t, 4> read_pack_edge_offset() {
+      std::array<pck_edge_offset_t, 4> edge_vec;
+
+      // Get pointer to registers for current state ID 
+      volatile uint tt_reg_ptr* cfg = get_cfg_pointer();
+
+      edge_vec[0] = read_pack_edge_offset_helper(PCK_EDGE_OFFSET_SEC0_mask_ADDR32, cfg);
+      edge_vec[1] = read_pack_edge_offset_helper(PCK_EDGE_OFFSET_SEC1_mask_ADDR32, cfg);
+      edge_vec[2] = read_pack_edge_offset_helper(PCK_EDGE_OFFSET_SEC2_mask_ADDR32, cfg);
+      edge_vec[3] = read_pack_edge_offset_helper(PCK_EDGE_OFFSET_SEC3_mask_ADDR32, cfg);
+
+      return edge_vec; 
+   }
+
    inline pack_counters_t read_pack_counters_helper(uint32_t reg_addr, const volatile uint tt_reg_ptr* cfg) {
       pack_counters_u counters = {.val=0};
       counters.val = cfg[reg_addr];

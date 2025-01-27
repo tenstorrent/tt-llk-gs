@@ -348,7 +348,6 @@ namespace ckernel::unpacker
 
   inline unpack_config_t read_unpack_config_helper(uint32_t reg_addr, const volatile uint tt_reg_ptr *cfg) {
       unpack_config_u config;
-      volatile uint tt_reg_ptr *cfg = get_cfg_pointer();
 
       config.val[0] = cfg[reg_addr];
       config.val[1] = cfg[reg_addr + 1];
